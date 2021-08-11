@@ -5,11 +5,14 @@ from tempfile  import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
+import numpy as np
+import pickle
+from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
-
+scalar = StandardScaler
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+knn_model = pickle.load(open('production/knn_model.pkl', 'rb'))
 
 
 @app.after_request
@@ -58,6 +61,7 @@ def prediction():
         return render_template("predictionForm.html")
     else:
         print("we are in prediction with post")
+        """
         predictionData = []
         age = int(request.form.get("age"))
         predictionData.append(age) 
@@ -88,9 +92,26 @@ def prediction():
         predictionData.append(cf)
         thales = int(request.form.get("thales"))
         predictionData.append(thales)
-        print(predictionData)
+        #print(predictionData)
         #predictionData is the list in which form values are present
-        return render_template("home.html", pred = predictionData)
+        features = [float(x) for x in request.form.values()]
+        inputFeature = np.asarray(features).reshape(1,-1)
+        final_features = [np.array(features)]  
+        prediction = knn_model.predict(inputFeature)
+        output = round(prediction[0], 2)
+        print("final features",output)
+        """
+        features = [float(i) for i in request.form.values()]
+        # Convert features to array
+        print(features)
+        array_features = [np.array(features)]
+        final_features = scaler.transform(array_features)
+        print(final_features)
+        # Predict features
+        prediction = knn_model.predict(final_features)
+        print([prediction])
+        output = prediction
+        return render_template("home.html", pred = output)
     
 @app.route("/logout", methods = ["GET","POST"])
 # @login_required
