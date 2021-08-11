@@ -56,6 +56,7 @@ def login():
 
 @app.route("/prediction", methods=["GET","POST"])
 def prediction():
+    # loading knn model
     knn_model = pickle.load(open('production/knn_model.pkl', 'rb'))
     if request.method == "GET":
         print("we are in pred")

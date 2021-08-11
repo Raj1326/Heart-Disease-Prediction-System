@@ -3,7 +3,7 @@
 
 # ## Heart Disease Prediction 
 
-# In[2]:
+# In[128]:
 
 
 #Importing basic libraries
@@ -16,7 +16,7 @@ import seaborn as sns # for data visualization
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# In[3]:
+# In[129]:
 
 
 #Other libraries
@@ -24,7 +24,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 
-# In[4]:
+# In[130]:
 
 
 #Machine Learning Algorithm
@@ -34,14 +34,14 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 
-# In[5]:
+# In[131]:
 
 
 # Importing the dataset
 dataset = pd.read_csv('dataset.csv')
 
 
-# In[6]:
+# In[132]:
 
 
 dataset.info()
@@ -53,7 +53,7 @@ dataset.info()
 
 
 
-# In[7]:
+# In[133]:
 
 
 dataset.describe()
@@ -61,7 +61,7 @@ dataset.describe()
 
 # ## Feature Selection
 
-# In[8]:
+# In[134]:
 
 
 corrmat = dataset.corr()
@@ -71,14 +71,14 @@ rcParams['figure.figsize'] = 20,20
 g = sns.heatmap(dataset[top_corr_features].corr(),annot=True,cmap="RdYlGn")
 
 
-# In[9]:
+# In[135]:
 
 
 #Visualization of Feature Distribution
 dataset.hist()
 
 
-# In[10]:
+# In[136]:
 
 
 #Checking the Dataset is Balanced or not 
@@ -90,64 +90,9 @@ plt.ylabel('Count')
 plt.title('Count of each Target Class')
 
 
-# In[11]:
-
-
-
-#VISULAIZATIONS----relationship between attributes
-rcParams['figure.figsize'] = 12,6
-pd.crosstab(dataset.thal,dataset.target).plot(kind='bar')
-plt.title('bar chart for thal vs target')
-plt.xlabel('thal')
-plt.ylabel('target')
-
-
-# In[12]:
-
-
-pd.crosstab(dataset.trestbps,dataset.target).plot(kind='bar')
-plt.title('bar chart for trestbps vs target')
-plt.xlabel('trestbps')
-plt.ylabel('target')
-
-
-# In[13]:
-
-
-pd.crosstab(dataset.cp,dataset.target).plot(kind='bar')
-plt.title('bar chart for cp vs target')
-plt.xlabel('cp')
-plt.ylabel('target')
-
-
-# In[14]:
-
-
-pd.crosstab(dataset.chol,dataset.target).plot(kind='bar')
-plt.title('bar chart for chol vs target')
-plt.xlabel('chol')
-plt.ylabel('target')
-
-
-# In[15]:
-
-
-pd.crosstab(dataset.restecg,dataset.target).plot(kind='bar')
-plt.title('bar chart for restecg vs target')
-plt.xlabel('restecg')
-plt.ylabel('target')
-
-
 # ## Data Processing
 
-# In[16]:
-
-
-#Convert categorical variables into dummy variables
-dataset = pd.get_dummies(dataset, columns = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal'])
-
-
-# In[17]:
+# In[137]:
 
 
 #Feature Scaling 
@@ -156,13 +101,13 @@ columns_to_scale = ['age', 'trestbps', 'chol', 'thalach','oldpeak']
 dataset[columns_to_scale] = standardScaler.fit_transform(dataset[columns_to_scale])
 
 
-# In[18]:
+# In[138]:
 
 
 dataset.head()
 
 
-# In[19]:
+# In[139]:
 
 
 # Splitting the dataset into the Training set and Test set
@@ -173,7 +118,7 @@ x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.2,random_stat
 
 # ## KNN
 
-# In[20]:
+# In[140]:
 
 
 # Fitting K-Neighbors Classification to the Training set
@@ -184,7 +129,7 @@ for k in range(1,16):
     knn_scores.append(knn_classifier.score(x_test, y_test))
 
 
-# In[21]:
+# In[141]:
 
 
 plt.figure(figsize=(20,10))
@@ -197,7 +142,7 @@ plt.ylabel('Scores')
 plt.title('K Neighbors Classifier scores for different K values')
 
 
-# In[22]:
+# In[142]:
 
 
 # Fitting K-Neighbors Classification to the Training set with k=12
@@ -205,7 +150,7 @@ knn_classifier = KNeighborsClassifier(n_neighbors = 12)
 knn_classifier.fit(x_train, y_train)
 
 
-# In[24]:
+# In[143]:
 
 
 # Predicting the Test set results
@@ -213,7 +158,7 @@ y_pred = knn_classifier.predict(x_test)
 #print(y_pred)
 
 
-# In[ ]:
+# In[144]:
 
 
 # Accuracy Score
@@ -221,7 +166,7 @@ from sklearn import metrics
 print(metrics.accuracy_score(y_test, y_pred))
 
 
-# In[27]:
+# In[145]:
 
 
 #Confusion Matrix
@@ -229,7 +174,7 @@ from sklearn.metrics import confusion_matrix
 print(confusion_matrix(y_test,y_pred))
 
 
-# In[28]:
+# In[146]:
 
 
 #Interpretation:
@@ -237,17 +182,18 @@ from sklearn.metrics import classification_report
 print(classification_report(y_test,y_pred))
 
 
-# In[29]:
+# In[147]:
 
 
-print("accuracy:",knn_classifier.score(x_test,y_test))
-sns.heatmap(confusion_matrix(y_test,y_pred),annot = True)
-plt.xlabel("Y_pred")
-plt.ylabel("Y_test")
-plt.show()
+#testing
+arr = [65,1,0,145,233,1,2,150,1,2.3,3,0,7]
+inputFeature = np.asarray(arr).reshape(1, -1)
+print(inputFeature.shape)
+prediction = knn_classifier.predict(inputFeature)
+print(prediction)
 
 
-# In[ ]:
+# In[148]:
 
 
 import pickle
