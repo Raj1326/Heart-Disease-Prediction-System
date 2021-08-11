@@ -57,7 +57,7 @@ def login():
 @app.route("/prediction", methods=["GET","POST"])
 def prediction():
     # loading knn model
-    knn_model = pickle.load(open('production/knn_model.pkl', 'rb'))
+    randomforest = pickle.load(open('production/randomforest.pkl', 'rb'))
     if request.method == "GET":
         print("we are in pred")
         return render_template("predictionForm.html")
@@ -65,7 +65,7 @@ def prediction():
         print("we are in prediction with post")
         features = [float(x) for x in request.form.values()]
         final_features = np.asarray(features).reshape(1, -1)
-        prediction = knn_model.predict(final_features)
+        prediction = randomforest.predict(final_features)
         output = round(prediction[0], 2)
         print("final features",output)
         if output == 0:
@@ -114,4 +114,4 @@ if __name__ == "__main__":
 
 #source venv/scripts/activate
 #export FLASK_APP=application.py
-#flask run
+#python -m flask run
