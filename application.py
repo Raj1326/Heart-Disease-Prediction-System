@@ -12,7 +12,7 @@ from sklearn.preprocessing import StandardScaler
 app = Flask(__name__)
 scalar = StandardScaler
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-knn_model = pickle.load(open('production/knn_model.pkl', 'rb'))
+
 
 
 @app.after_request
@@ -56,12 +56,13 @@ def login():
 
 @app.route("/prediction", methods=["GET","POST"])
 def prediction():
+    knn_model = pickle.load(open('production/knn_model.pkl', 'rb'))
     if request.method == "GET":
         print("we are in pred")
         return render_template("predictionForm.html")
     else:
         print("we are in prediction with post")
-        """
+        
         predictionData = []
         age = int(request.form.get("age"))
         predictionData.append(age) 
@@ -92,27 +93,21 @@ def prediction():
         predictionData.append(cf)
         thales = int(request.form.get("thales"))
         predictionData.append(thales)
+        #dataset = np.asarray(predictionData)
+        #dataset = pd.get_dummies(dataset, columns = ['Gender', 'cp', 'fbs', 'recg', 'exang', 'slope', 'cf', 'thales'])
         #print(predictionData)
         #predictionData is the list in which form values are present
         features = [float(x) for x in request.form.values()]
-        inputFeature = np.asarray(features).reshape(1,-1)
-        final_features = [np.array(features)]  
-        prediction = knn_model.predict(inputFeature)
+        
+        final_features = np.asarray(features).reshape(1, -1)
+        prediction = knn_model.predict(final_features)
         output = round(prediction[0], 2)
         print("final features",output)
-        """
-        features = [float(i) for i in request.form.values()]
-        # Convert features to array
-        print(features)
-        array_features = [np.array(features)]
-        final_features = scaler.transform(array_features)
-        print(final_features)
-        # Predict features
-        prediction = knn_model.predict(final_features)
-        print([prediction])
-        output = prediction
-        return render_template("home.html", pred = output)
-    
+        if output == 0:
+            return render_template('Heart Disease Classifier.html',result = 'The patient is not likely to have heart disease!')
+        else:
+            return render_template('Heart Disease Classifier.html',result = 'The patient is likely to have heart disease!')
+        
 @app.route("/logout", methods = ["GET","POST"])
 # @login_required
 def logout():
@@ -151,3 +146,7 @@ def register():
 
 if __name__ == "__main__":
     app.run(debug = True)
+
+#source venv/scripts/activate
+#export FLASK_APP=application.py
+#flask run
