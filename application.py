@@ -83,7 +83,15 @@ def prediction():
             result = "The patient is likely to have heart disease!"
             db.execute("INSERT INTO dashbord (dates, result) VALUES (:dates, :result)", dates = dates, result = result)
             return render_template('predictionForm.html',result = 'The patient is likely to have heart disease!')
-        
+
+
+@app.route("/dashboard", methods=["GET"])
+def dashboard():
+    if request.method == "GET":
+        email = db.execute("SELECT * FROM users WHERE Id = : id", id = session['user_id'])
+        data = db.execute("SELECT * FROM dashbord WHERE email = :email", email = email.email)
+        return render_template("dashboard.html", data = data)
+
 @app.route("/logout", methods = ["GET","POST"])
 # @login_required
 def logout():
