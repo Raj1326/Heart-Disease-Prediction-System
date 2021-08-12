@@ -7,7 +7,7 @@ The dataset used for this study was taken from UCI machine learning repository
 
 Description:
 
-This data set currently contains 303 instances, some of which aren't complete (some features may be missing for a certain instance). In the case that this happens, the instance has been removed. There are 14 relevant features which have been extracted, from a maximum of 76 in the total dataset.
+This data set currently contains 303 instances. There are 14 relevant features which have been extracted, from a maximum of 76 in the total dataset.
 
 Features information:
 
