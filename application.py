@@ -4,15 +4,14 @@ from flask_session import Session
 from tempfile  import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 import pickle
-from sklearn.preprocessing import StandardScaler
+# from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
 # scalar = StandardScaler()
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-knn_model = pickle.load(open('production/dt_model.pkl', 'rb'))
 
 
 @app.after_request
@@ -61,63 +60,23 @@ def login():
 
 @app.route("/prediction", methods=["GET","POST"])
 def prediction():
+    # loading knn model
+    randomforest = pickle.load(open('production/randomforest.pkl', 'rb'))
     if request.method == "GET":
         print("we are in pred")
         return render_template("predictionForm.html")
     else:
         print("we are in prediction with post")
-        """
-        predictionData = []
-        age = int(request.form.get("age"))
-        predictionData.append(age) 
-        gender = int(request.form.get("Gender"))
-        #print(age,gender)
-        predictionData.append(gender)
-        #print("Varun kalra was here")
-        #print(predictionData)
-        cp = int(request.form.get("cp"))
-        predictionData.append(cp)
-        rbp = int(request.form.get("trestbps"))
-        predictionData.append(rbp)
-        chol = int(request.form.get("chol"))
-        predictionData.append(chol)
-        fbs = int(request.form.get("fbs"))
-        predictionData.append(fbs)
-        recg = int(request.form.get("recg"))
-        predictionData.append(recg)
-        mhr = int(request.form.get("mhr"))
-        predictionData.append(mhr)
-        dind = int(request.form.get("dind"))
-        predictionData.append(dind)
-        ia = int(request.form.get("ia"))
-        predictionData.append(ia)
-        slope = int(request.form.get("slope"))
-        predictionData.append(slope)
-        cf = int(request.form.get("cf"))
-        predictionData.append(cf)
-        thales = int(request.form.get("thales"))
-        predictionData.append(thales)
-        #print(predictionData)
-        #predictionData is the list in which form values are present
         features = [float(x) for x in request.form.values()]
-        inputFeature = np.asarray(features).reshape(1,-1)
-        final_features = [np.array(features)]  
-        prediction = knn_model.predict(inputFeature)
+        final_features = np.asarray(features).reshape(1, -1)
+        prediction = randomforest.predict(final_features)
         output = round(prediction[0], 2)
         print("final features",output)
-        """
-        features = [float(i) for i in request.form.values()]
-        # Convert features to array
-        print(features)
-        array_features = [np.array(features)]
-        final_features = StandardScaler.transform(array_features)
-        print(final_features)
-        # Predict features
-        prediction = knn_model.predict(final_features)
-        print([prediction])
-        output = prediction
-        return render_template("home.html", pred = output)
-    
+        if output == 0:
+            return render_template('Heart Disease Classifier.html',result = 'The patient is not likely to have heart disease!')
+        else:
+            return render_template('Heart Disease Classifier.html',result = 'The patient is likely to have heart disease!')
+        
 @app.route("/logout", methods = ["GET","POST"])
 # @login_required
 def logout():
@@ -156,3 +115,7 @@ def register():
 
 if __name__ == "__main__":
     app.run(debug = True)
+
+#source venv/scripts/activate
+#export FLASK_APP=application.py
+#python -m flask run

@@ -70,37 +70,36 @@ df.hist()
 # It produces new column for each unique category <br>
 # one hot encodding
 
+# In[ ]:
+
+
+
+
+
 # In[8]:
-
-
-#storing imp 
-dataset=pd.get_dummies(df,columns=['sex','cp','fbs','restecg','exang','slope','ca','thal'])
-
-
-# In[9]:
 
 
 #converting data in one scale
 standardScaler=StandardScaler()
 coumn_to_scale=['age','trestbps','chol','thalach','oldpeak']
-dataset[coumn_to_scale]=StandardScaler().fit_transform(dataset[coumn_to_scale])
+df[coumn_to_scale]=StandardScaler().fit_transform(df[coumn_to_scale])
+
+
+# In[9]:
+
+
+df.head()
 
 
 # In[10]:
 
 
-dataset.head()
+# splitting data
+y=df['target'].values
+x=df.drop(['target'],axis=1)
 
 
 # In[11]:
-
-
-# splitting data
-y=dataset['target'].values
-x=dataset.drop(['target'],axis=1)
-
-
-# In[12]:
 
 
 # train test split
@@ -109,13 +108,13 @@ x_train, x_test, y_train, y_test = train_test_split(x,y,test_size = 0.20,random_
 
 # <b>Random Forest Classifier</b>
 
-# In[13]:
+# In[12]:
 
 
 rf = RandomForestClassifier(random_state = 42).fit(x_train,y_train)
 
 
-# In[14]:
+# In[13]:
 
 
 y_pred=rf.predict(x_test)

@@ -3,7 +3,7 @@
 
 # ## Heart Disease Prediction 
 
-# In[1]:
+# In[24]:
 
 
 #Importing basic libraries
@@ -16,7 +16,7 @@ import seaborn as sns # for data visualization
 get_ipython().run_line_magic('matplotlib', 'inline')
 
 
-# In[2]:
+# In[25]:
 
 
 #Other libraries
@@ -24,7 +24,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 
-# In[3]:
+# In[26]:
 
 
 #Machine Learning Algorithm
@@ -34,20 +34,20 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 
-# In[4]:
+# In[27]:
 
 
 # Importing the dataset
 dataset = pd.read_csv('dataset.csv')
 
 
-# In[5]:
+# In[28]:
 
 
 dataset.info()
 
 
-# In[6]:
+# In[29]:
 
 
 dataset.describe()
@@ -55,7 +55,7 @@ dataset.describe()
 
 # ## Feature Selection
 
-# In[7]:
+# In[30]:
 
 
 corrmat = dataset.corr()
@@ -65,14 +65,14 @@ rcParams['figure.figsize'] = 20,20
 g = sns.heatmap(dataset[top_corr_features].corr(),annot=True,cmap="RdYlGn")
 
 
-# In[8]:
+# In[31]:
 
 
 #Visualization of Feature Distribution
 dataset.hist()
 
 
-# In[9]:
+# In[32]:
 
 
 #Checking the Dataset is Balanced or not 
@@ -86,14 +86,7 @@ plt.title('Count of each Target Class')
 
 # ## Data Processing
 
-# In[10]:
-
-
-#Convert categorical variables into dummy variables
-dataset = pd.get_dummies(dataset, columns = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'ca', 'thal'])
-
-
-# In[11]:
+# In[33]:
 
 
 #Feature Scaling 
@@ -102,13 +95,13 @@ columns_to_scale = ['age', 'trestbps', 'chol', 'thalach','oldpeak']
 dataset[columns_to_scale] = standardScaler.fit_transform(dataset[columns_to_scale])
 
 
-# In[12]:
+# In[34]:
 
 
 dataset.head()
 
 
-# In[13]:
+# In[35]:
 
 
 # Splitting the dataset into the Training set and Test set
@@ -119,7 +112,7 @@ x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.2,random_stat
 
 # ## Decision Tree Classifier
 
-# In[14]:
+# In[36]:
 
 
 # Fitting Decision Tree Classification to the Training set
@@ -130,7 +123,7 @@ for i in range(1, len(x.columns) + 1):
     dt_scores.append(dt_classifier.score(x_test, y_test))
 
 
-# In[15]:
+# In[37]:
 
 
 plt.figure(figsize=(20,15))
@@ -143,7 +136,7 @@ plt.ylabel('Scores')
 plt.title('Decision Tree Classifier scores for different number of maximum features')
 
 
-# In[16]:
+# In[38]:
 
 
 # Fitting Decision Tree Classification to the Training set with max_features = 10
@@ -151,14 +144,14 @@ dt_classifier = DecisionTreeClassifier(max_features = 10, random_state = 0)
 dt_classifier.fit(x_train, y_train)
 
 
-# In[17]:
+# In[39]:
 
 
 # Predicting the Test set results
 y_pred = dt_classifier.predict(x_test)
 
 
-# In[18]:
+# In[40]:
 
 
 # Accuracy Score
@@ -166,7 +159,7 @@ from sklearn import metrics
 print(metrics.accuracy_score(y_test, y_pred))
 
 
-# In[19]:
+# In[41]:
 
 
 #Confusion Matrix
@@ -174,7 +167,7 @@ from sklearn.metrics import confusion_matrix
 print(confusion_matrix(y_test,y_pred))
 
 
-# In[20]:
+# In[42]:
 
 
 #Interpretation:
@@ -182,7 +175,7 @@ from sklearn.metrics import classification_report
 print(classification_report(y_test,y_pred))
 
 
-# In[23]:
+# In[43]:
 
 
 rcParams['figure.figsize'] = 12,6
@@ -193,7 +186,17 @@ plt.ylabel("Y_test")
 plt.show()
 
 
-# In[22]:
+# In[44]:
+
+
+arr = [65,1,0,145,233,1,2,150,1,2.3,3,0,7]
+inputFeature = np.asarray(arr).reshape(1, -1)
+print(inputFeature.shape)
+prediction = dt_classifier.predict(inputFeature)
+print(prediction)
+
+
+# In[45]:
 
 
 import pickle

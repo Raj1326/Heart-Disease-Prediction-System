@@ -70,11 +70,10 @@ df.hist()
 # It produces new column for each unique category <br>
 # one hot encodding
 
-# In[8]:
+# In[ ]:
 
 
-#storing imp 
-dataset=pd.get_dummies(df,columns=['sex','cp','fbs','restecg','exang','slope','ca','thal'])
+
 
 
 # In[9]:
@@ -83,21 +82,21 @@ dataset=pd.get_dummies(df,columns=['sex','cp','fbs','restecg','exang','slope','c
 #converting data in one scale
 standardScaler=StandardScaler()
 coumn_to_scale=['age','trestbps','chol','thalach','oldpeak']
-dataset[coumn_to_scale]=StandardScaler().fit_transform(dataset[coumn_to_scale])
+df[coumn_to_scale]=StandardScaler().fit_transform(df[coumn_to_scale])
 
 
 # In[10]:
 
 
-dataset.head()
+df.head()
 
 
 # In[11]:
 
 
 # splitting data
-y=dataset['target'].values
-x=dataset.drop(['target'],axis=1)
+y=df['target'].values
+x=df.drop(['target'],axis=1)
 
 
 # In[12]:
