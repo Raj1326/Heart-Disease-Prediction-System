@@ -10,9 +10,9 @@ import pickle
 from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
-scalar = StandardScaler
+# scalar = StandardScaler()
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-knn_model = pickle.load(open('production/knn_model.pkl', 'rb'))
+knn_model = pickle.load(open('production/dt_model.pkl', 'rb'))
 
 
 @app.after_request
@@ -33,7 +33,12 @@ db = SQL("sqlite:///mydb.db")
 
 @app.route('/', methods=['GET']) 
 def home() : 
-    return render_template('layout.html')
+    return render_template('home.html')
+
+@app.route('/about', methods=['GET']) 
+def about() : 
+    return render_template('about.html')
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -105,7 +110,7 @@ def prediction():
         # Convert features to array
         print(features)
         array_features = [np.array(features)]
-        final_features = scaler.transform(array_features)
+        final_features = StandardScaler.transform(array_features)
         print(final_features)
         # Predict features
         prediction = knn_model.predict(final_features)

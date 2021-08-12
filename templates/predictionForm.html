@@ -2,6 +2,7 @@
 {% block main %}
 <form action = "/prediction" method ="POST" >
 				<fieldset>
+					
 				<legend>Heart Disease Test Form</legend><br>
 				  <div class="card card-body" >
 					  <div class="form-group  row">
@@ -115,8 +116,19 @@
 				     </div>
 			 </fieldset>
 			</form>
-            <!--Prediction Result-->
-			<div id ="result">
+			<!-- <div id ="result">
                 <strong style="color:red">Res{{result}}</strong>
-            </div>
+            </div> -->
+			<div class="container-fluid navs pb-3" style="color: mistyrose;">
+				<nav class="navbar"style="background-color: #95103B;">
+				  <h4>Project Made by</h4>
+				</nav>
+				<h5 class="pl-3">Varun Kalra</h5>
+				<h5 class="pl-3">Raj Gupta</h5>
+				<h5 class="pl-3">Rakshita Pawar</h5>
+				<h5 class="pl-3">Samay Singhai</h5>
+			  </div>          
+			</div>
+            <!--Prediction Result-->
+			
 {% endblock %}

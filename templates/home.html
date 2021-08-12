@@ -1,1 +1,71 @@
-{{pred}}
+{% extends 'layout.html' %}
+{% block main %}
+<div class=" slide">
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="d-block w-100" src="/static/banners.jpg" alt="First slide">
+          </div>
+          <div class="head" style="color: midnightblue; position:absolute;top:30% ; right:4%">
+            <h1 style="font-family: 'Anton', sans-serif;">Comapassion Lives Here, Care that lasts</h1>
+            <h1 style="font-family: 'Anton', sans-serif;">a Lifetime</h1>
+          </div>
+          <div class="btn btn-primary" style="position:absolute;top:40% ; right:40%; height:40px; ">
+            <a href="/prediction" style="color:white"><strong>Check Your Heart</strong></a>
+          </div>
+          <div class="container mt-5">
+            <div class="row">
+              <div class="col-4">
+                
+                  <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/static/card1.png" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">Expert Service</h5>
+                      <p class="card-text">Our expert are always there for your care.</p>
+                      <a href="#" class="btn btn-primary">Track you disease</a>
+                    </div>
+                  </div>
+                
+              </div>
+              <div class="col-4">
+                
+                  <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/static/card2.png" alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">24 * 7 Support</h5>
+                      <p class="card-text">Our expert are always there for your care.</p>
+                      <a href="#" class="btn btn-primary">Track you disease</a>
+                    </div>
+                  </div>              
+              </div>
+
+              <div class="col-4">
+                
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="/static/card3.png" alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">Technology</h5>
+                    <p class="card-text">Combination of mordern technology and expert experience</p>
+                    <a href="#" class="btn btn-primary">Track you disease</a>
+                  </div>
+                </div>              
+            </div>
+
+
+            </div>
+          </div>
+          <div class="container-fluid navs pb-3" style="color: mistyrose;">
+            <nav class="navbar"style="background-color: #95103B;">
+              <h4>Project Made by</h4>
+            </nav>
+            <h5 class="pl-3">Varun Kalra</h5>
+            <h5 class="pl-3">Raj Gupta</h5>
+            <h5 class="pl-3">Rakshita Pawar</h5>
+            <h5 class="pl-3">Samay Singhai</h5>
+          </div>          
+        </div>
+    
+    </div>
+</div>
+
+{% endblock %}
