@@ -73,9 +73,9 @@ def prediction():
         output = round(prediction[0], 2)
         print("final features",output)
         if output == 0:
-            return render_template('Heart Disease Classifier.html',result = 'The patient is not likely to have heart disease!')
+            return render_template('predictionForm.html',result = 'The patient is not likely to have heart disease!')
         else:
-            return render_template('Heart Disease Classifier.html',result = 'The patient is likely to have heart disease!')
+            return render_template('predictionForm.html',result = 'The patient is likely to have heart disease!')
         
 @app.route("/logout", methods = ["GET","POST"])
 # @login_required
