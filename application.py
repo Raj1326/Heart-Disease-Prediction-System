@@ -75,10 +75,13 @@ def prediction():
         dates = datetime.datetime.now()
         
         if output == 0:
+            result = "The patient is not likely to have heart disease!"
+            db.execute("INSERT INTO dashbord (dates, result) VALUES (:dates, :result)", dates = dates, result = result)
             return render_template('predictionForm.html',result = 'The patient is not likely to have heart disease!')
         else:
+            result = "The patient is likely to have heart disease!"
+            db.execute("INSERT INTO dashbord (dates, result) VALUES (:dates, :result)", dates = dates, result = result)
             return render_template('predictionForm.html',result = 'The patient is likely to have heart disease!')
-
 
 
 
