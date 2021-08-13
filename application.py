@@ -4,6 +4,7 @@ from flask_session import Session
 from tempfile  import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+import datetime
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
 import pickle
@@ -38,7 +39,6 @@ def home() :
 def about() : 
     return render_template('about.html')
 
-
 @app.route('/login', methods=['GET','POST'])
 def login():
     session.clear() 
@@ -72,11 +72,16 @@ def prediction():
         prediction = randomforest.predict(final_features)
         output = round(prediction[0], 2)
         print("final features",output)
+        dates = datetime.datetime.now()
+        
         if output == 0:
             return render_template('predictionForm.html',result = 'The patient is not likely to have heart disease!')
         else:
             return render_template('predictionForm.html',result = 'The patient is likely to have heart disease!')
-        
+
+
+
+
 @app.route("/logout", methods = ["GET","POST"])
 # @login_required
 def logout():
